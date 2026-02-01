@@ -36,7 +36,6 @@ spec:
       value: oidc.eks.us-east-1.amazonaws.com/id/652A47046A6D0FA5C9071665DDF5C723
     - name: network_mode
       value: INTERNET
-  serviceAccountName: tf-controller
   writeOutputsToSecret:
     name: agent-core-outputs
   destroyResourcesOnDeletion: false
