@@ -22,7 +22,7 @@ metadata:
   name: agent-core-components
   namespace: agent-core-infra
 spec:
-  interval: 10m
+  interval: 1m
   path: ./terraform/agent-core-components
   sourceRef:
     kind: GitRepository

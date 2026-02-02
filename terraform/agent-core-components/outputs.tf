@@ -10,22 +10,22 @@ output "agent_memory_kb_arn" {
 
 output "code_interpreter_arn" {
   description = "Code Interpreter ARN"
-  value       = aws_bedrockagentcore_code_interpreter.code_interpreter.arn
+  value       = aws_bedrockagentcore_code_interpreter.code_interpreter.code_interpreter_arn
 }
 
 output "code_interpreter_id" {
   description = "Code Interpreter ID"
-  value       = aws_bedrockagentcore_code_interpreter.code_interpreter.id
+  value       = aws_bedrockagentcore_code_interpreter.code_interpreter.code_interpreter_id
 }
 
 output "browser_arn" {
   description = "Browser ARN"
-  value       = aws_bedrockagentcore_browser.browser.arn
+  value       = aws_bedrockagentcore_browser.browser.browser_arn
 }
 
 output "browser_id" {
   description = "Browser ID"
-  value       = aws_bedrockagentcore_browser.browser.id
+  value       = aws_bedrockagentcore_browser.browser.browser_id
 }
 
 output "strands_agent_role_arn" {
