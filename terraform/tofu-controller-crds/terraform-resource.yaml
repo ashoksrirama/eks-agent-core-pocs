@@ -39,4 +39,4 @@ spec:
   writeOutputsToSecret:
     name: agent-core-outputs
   destroyResourcesOnDeletion: true
-  approvePlan: manual
+  approvePlan: auto
