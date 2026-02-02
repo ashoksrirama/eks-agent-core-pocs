@@ -109,10 +109,12 @@ resource "aws_iam_role_policy" "strands_agent_policy" {
       {
         Effect = "Allow"
         Action = [
-          "bedrock:InvokeAgentCoreTool"
+          "bedrock:InvokeAgentCoreTool",
+          "bedrock-agentcore:*"
         ]
         Resource = [
-          "arn:aws:bedrock:${var.aws_region}:${data.aws_caller_identity.current.account_id}:agent-core-tool/*"
+          "arn:aws:bedrock:${var.aws_region}:${data.aws_caller_identity.current.account_id}:agent-core-tool/*",
+          "arn:aws:bedrock-agentcore:${var.aws_region}:${data.aws_caller_identity.current.account_id}:*"
         ]
       },
       {
