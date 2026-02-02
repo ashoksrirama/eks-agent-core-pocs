@@ -136,8 +136,7 @@ resource "aws_iam_role_policy" "strands_agent_policy" {
           "bedrock:InvokeAgentCoreTool"
         ]
         Resource = [
-          aws_bedrockagentcore_code_interpreter.code_interpreter.arn,
-          aws_bedrockagentcore_browser.browser.arn
+          "arn:aws:bedrock:${var.aws_region}:${data.aws_caller_identity.current.account_id}:agent-core-tool/*"
         ]
       },
       {
