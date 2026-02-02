@@ -118,9 +118,18 @@ resource "aws_iam_role_policy" "strands_agent_policy" {
       {
         Effect = "Allow"
         Action = [
-          "bedrock:InvokeModel"
+          "bedrock:InvokeModel",
+          "bedrock:InvokeModelWithResponseStream"
         ]
         Resource = "arn:aws:bedrock:${var.aws_region}::foundation-model/*"
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "bedrock:InvokeModel",
+          "bedrock:InvokeModelWithResponseStream"
+        ]
+        Resource = "arn:aws:bedrock:${var.aws_region}:${data.aws_caller_identity.current.account_id}:inference-profile/*"
       },
       {
         Effect = "Allow"
