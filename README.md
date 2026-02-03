@@ -112,7 +112,18 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 kubectl wait --for=condition=available --timeout=300s deployment/argocd-server -n argocd
 ```
 
-### 4. Tofu Controller
+### 4. Flux (for Tofu Controller)
+
+```bash
+# Install Flux components (source-controller and notification-controller)
+kubectl apply -f https://github.com/fluxcd/flux2/releases/latest/download/install.yaml
+
+# Wait for Flux to be ready
+kubectl wait --for=condition=available --timeout=300s deployment/source-controller -n flux-system
+kubectl wait --for=condition=available --timeout=300s deployment/notification-controller -n flux-system
+```
+
+### 5. Tofu Controller
 
 ```bash
 # Deploy via ArgoCD
@@ -122,7 +133,7 @@ kubectl apply -f argocd/tofu-controller-application.yaml
 kubectl get pods -n flux-system -l app.kubernetes.io/name=tf-controller
 ```
 
-### 5. AWS Bedrock Access
+### 6. AWS Bedrock Access
 
 Enable in AWS Console → Bedrock → Model access:
 - Amazon Bedrock Agent Core
