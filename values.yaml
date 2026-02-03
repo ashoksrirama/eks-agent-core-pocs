@@ -5,8 +5,8 @@ version: v5
 projectName: ekspoc-v5
 
 # AWS Configuration
-awsRegion: us-east-1
-eksClusterName: dev
+awsRegion: us-west-2
+eksClusterName: machine-learning
 networkMode: PUBLIC
 
 # Capability Toggles
