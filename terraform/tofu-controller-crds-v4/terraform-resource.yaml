@@ -35,7 +35,7 @@ spec:
     - name: eks_cluster_name
       value: dev
     - name: network_mode
-      value: INTERNET_ACCESSIBLE
+      value: PUBLIC
     - name: enable_memory
       value: true
     - name: enable_browser
