@@ -4,8 +4,5 @@ kind: Kustomization
 namespace: agent-core-infra
 
 resources:
-# Wave 0: Terraform resources (provisions AWS infrastructure)
-- https://github.com/elamaran11/eks-agent-core-pocs/terraform/tofu-controller-crds-v4?ref=main
-
-# Wave 1: Agent deployment (uses outputs from Terraform)
-- https://github.com/elamaran11/eks-agent-core-pocs/strands-agent/deployment-v4?ref=main
+- terraform-resource.yaml
+- deployment.yaml
