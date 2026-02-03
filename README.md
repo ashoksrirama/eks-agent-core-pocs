@@ -338,7 +338,7 @@ aws eks list-pod-identity-associations --cluster-name dev --region us-east-1
 ## Testing
 
 ```bash
-kubectl exec -it -n agent-core-infra deployment/strands-agent-v4 -- python -c "
+kubectl exec -it -n agent-core-infra deployment/strands-agent-v5 -- python -c "
 import asyncio
 from agent import async_main
 
@@ -357,8 +357,8 @@ print(result)
 
 **Check results:**
 ```bash
-aws s3 ls s3://ekspoc-v4-weather-results/
-aws s3 cp s3://ekspoc-v4-weather-results/tampa-fl-weekend-activities.md -
+aws s3 ls s3://ekspoc-v5-weather-results/
+aws s3 cp s3://ekspoc-v5-weather-results/tampa-fl-weekend-activities.md -
 ```
 
 ---
@@ -435,10 +435,16 @@ kubectl delete application agent-core-stack -n argocd
 kubectl apply -f argocd/agent-core-stack.yaml
 
 # Monitor
-kubectl get terraform agent-core-components-v4 -n agent-core-infra -w
+kubectl get terraform agent-core-components-v5 -n agent-core-infra -w
 
 # Test
-kubectl exec -it -n agent-core-infra deployment/strands-agent-v4 -- python -c "..."
+kubectl exec -it -n agent-core-infra deployment/strands-agent-v5 -- python -c "
+import asyncio
+from agent import async_main
+result = asyncio.run(async_main('What should I do this weekend in Tampa, FL?'))
+print('\n=== RESULT ===')
+print(result)
+"
 
 # Cleanup
 kubectl delete application agent-core-stack -n argocd
