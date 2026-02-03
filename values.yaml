@@ -17,3 +17,9 @@ capabilities:
 
 # Kubernetes Configuration
 namespace: agent-core-infra
+
+# Agent Image Configuration
+image:
+  repository: 940019131157.dkr.ecr.us-east-1.amazonaws.com/strands-agent
+  tag: latest
+  pullPolicy: Always

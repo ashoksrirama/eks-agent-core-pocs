@@ -166,43 +166,84 @@ def execute_code(python_code: str) -> Dict[str, Any]:
         return {"status": "error", "content": [{"text": f"Error: {str(e)}"}]}
 
 @tool
-def get_activity_preferences() -> Dict[str, Any]:
-    """Get activity preferences from memory"""
+def store_user_preferences(preferences: str) -> Dict[str, Any]:
+    """Store user activity preferences in memory"""
     if not HAS_MEMORY:
-        return {"status": "success", "content": [{"text": "Memory capability not enabled. Using default preferences."}]}
+        return {"status": "success", "content": [{"text": "Memory not enabled. Preferences not stored."}]}
     
     try:
         client = MemoryClient(region_name=AWS_REGION)
-        response = client.list_events(
+        client.store(
             memory_id=MEMORY_ID,
             actor_id="user123",
             session_id="session456",
-            max_results=50,
-            include_payload=True
+            content=f"User activity preferences: {preferences}",
+            metadata={"type": "preferences"}
+        )
+        return {"status": "success", "content": [{"text": f"Preferences stored: {preferences}"}]}
+    except Exception as e:
+        return {"status": "error", "content": [{"text": f"Error storing preferences: {str(e)}"}]}
+
+@tool
+def get_activity_preferences() -> Dict[str, Any]:
+    """Get user activity preferences from memory"""
+    if not HAS_MEMORY:
+        return {"status": "success", "content": [{"text": "Memory not enabled. Default: outdoor activities, hiking, beaches, museums."}]}
+    
+    try:
+        client = MemoryClient(region_name=AWS_REGION)
+        response = client.retrieve(
+            memory_id=MEMORY_ID,
+            query="What are the user's activity preferences and interests?",
+            max_results=5
         )
         
-        preferences = response[0]["payload"][0]['blob'] if response else "No preferences found"
-        return {"status": "success", "content": [{"text": preferences}]}
+        if response and len(response) > 0:
+            preferences = "\n".join([item.get('content', '') for item in response])
+            return {"status": "success", "content": [{"text": f"User preferences: {preferences}"}]}
+        else:
+            return {"status": "success", "content": [{"text": "No preferences stored. Default: outdoor activities, hiking, beaches, museums."}]}
     except Exception as e:
-        return {"status": "error", "content": [{"text": f"Error: {str(e)}"}]}
+        return {"status": "error", "content": [{"text": f"Error retrieving preferences: {str(e)}"}]}
+
+@tool
+def store_activity_plan(city: str, plan: str) -> Dict[str, Any]:
+    """Store the activity plan in memory for future reference"""
+    if not HAS_MEMORY:
+        return {"status": "success", "content": [{"text": "Memory not enabled. Plan not stored."}]}
+    
+    try:
+        client = MemoryClient(region_name=AWS_REGION)
+        client.store(
+            memory_id=MEMORY_ID,
+            actor_id="user123",
+            session_id="session456",
+            content=f"Activity plan for {city}: {plan}",
+            metadata={"city": city, "type": "activity_plan"}
+        )
+        return {"status": "success", "content": [{"text": f"Activity plan stored in memory for {city}"}]}
+    except Exception as e:
+        return {"status": "error", "content": [{"text": f"Error storing plan: {str(e)}"}]}
 
 def create_weather_agent() -> Agent:
     """Create the weather agent with all tools"""
-    system_prompt = f"""You are a Weather-Based Activity Planning Assistant.
+    system_prompt = f"""You are a Weather-Based Activity Planning Assistant with memory.
 
     When a user asks about activities for a location:
     1. Extract city from query
-    2. Call get_weather_data(city)
-    3. Call generate_analysis_code(weather_data)
-    4. Call execute_code(python_code)
-    5. Call get_activity_preferences()
-    6. Generate Activity Recommendations
-    7. Store results.md in S3 Bucket: {RESULTS_BUCKET} via use_aws tool
+    2. Call get_activity_preferences() to check if user has stored preferences
+    3. If user mentions preferences in their query (e.g., "I like hiking"), call store_user_preferences() to save them
+    4. Call get_weather_data(city) to get weather forecast
+    5. Call generate_analysis_code(weather_data) to create classification code
+    6. Call execute_code(python_code) to classify weather days
+    7. Generate personalized activity recommendations based on weather and preferences
+    8. Call store_activity_plan(city, plan) to save the plan in memory for future reference
+    9. Store results.md in S3 Bucket: {RESULTS_BUCKET} via use_aws tool
     
-    IMPORTANT: Provide complete recommendations and end your response."""
+    Memory stores user preferences across sessions. Always check memory first and save new preferences/plans."""
     
     return Agent(
-        tools=[get_weather_data, generate_analysis_code, execute_code, get_activity_preferences, use_aws],
+        tools=[get_weather_data, generate_analysis_code, execute_code, store_user_preferences, get_activity_preferences, store_activity_plan, use_aws],
         system_prompt=system_prompt,
         name="WeatherActivityPlanner"
     )

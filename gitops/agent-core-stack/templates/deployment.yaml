@@ -18,8 +18,8 @@ spec:
       serviceAccountName: strands-agent-sa-{{ .Values.projectName }}
       containers:
       - name: strands-agent
-        image: 940019131157.dkr.ecr.us-east-1.amazonaws.com/strands-agent:latest
-        imagePullPolicy: Always
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
         env:
         - name: AWS_REGION
           value: "{{ .Values.awsRegion }}"
