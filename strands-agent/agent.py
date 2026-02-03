@@ -173,12 +173,12 @@ def store_user_preferences(preferences: str) -> Dict[str, Any]:
     
     try:
         client = MemoryClient(region_name=AWS_REGION)
-        client.store(
+        client.save_turn(
             memory_id=MEMORY_ID,
             actor_id="user123",
             session_id="session456",
-            content=f"User activity preferences: {preferences}",
-            metadata={"type": "preferences"}
+            user_input=f"My preferences: {preferences}",
+            agent_response="Preferences saved"
         )
         return {"status": "success", "content": [{"text": f"Preferences stored: {preferences}"}]}
     except Exception as e:
@@ -192,14 +192,14 @@ def get_activity_preferences() -> Dict[str, Any]:
     
     try:
         client = MemoryClient(region_name=AWS_REGION)
-        response = client.retrieve(
+        response = client.retrieve_memories(
             memory_id=MEMORY_ID,
             query="What are the user's activity preferences and interests?",
             max_results=5
         )
         
         if response and len(response) > 0:
-            preferences = "\n".join([item.get('content', '') for item in response])
+            preferences = "\n".join([str(item) for item in response])
             return {"status": "success", "content": [{"text": f"User preferences: {preferences}"}]}
         else:
             return {"status": "success", "content": [{"text": "No preferences stored. Default: outdoor activities, hiking, beaches, museums."}]}
@@ -214,12 +214,12 @@ def store_activity_plan(city: str, plan: str) -> Dict[str, Any]:
     
     try:
         client = MemoryClient(region_name=AWS_REGION)
-        client.store(
+        client.save_turn(
             memory_id=MEMORY_ID,
             actor_id="user123",
             session_id="session456",
-            content=f"Activity plan for {city}: {plan}",
-            metadata={"city": city, "type": "activity_plan"}
+            user_input=f"Plan for {city}",
+            agent_response=plan
         )
         return {"status": "success", "content": [{"text": f"Activity plan stored in memory for {city}"}]}
     except Exception as e:
