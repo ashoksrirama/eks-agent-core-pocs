@@ -1,5 +1,5 @@
 {{- if .Values.kagent.enabled }}
-apiVersion: kagent.amazon.com/v1alpha2
+apiVersion: kagent.dev/v1alpha2
 kind: Agent
 metadata:
   name: weather-agent-{{ .Values.version }}
@@ -40,7 +40,7 @@ spec:
     tools:
       - type: McpServer
         mcpServer:
-          apiGroup: kagent.amazon.com
+          apiGroup: kagent.dev
           kind: RemoteMCPServer
           name: agent-core-tools-{{ .Values.version }}
           toolNames: []  # Empty = auto-discover all tools

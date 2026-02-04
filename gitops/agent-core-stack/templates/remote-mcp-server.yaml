@@ -1,4 +1,4 @@
-apiVersion: kagent.amazon.com/v1alpha2
+apiVersion: kagent.dev/v1alpha2
 kind: RemoteMCPServer
 metadata:
   name: agent-core-tools-{{ .Values.version }}
