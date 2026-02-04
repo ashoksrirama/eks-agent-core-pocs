@@ -5,8 +5,8 @@ version: v5
 projectName: ekspoc-v5
 
 # AWS Configuration
-awsRegion: us-east-1
-eksClusterName: dev
+awsRegion: us-west-2
+eksClusterName: eks-nfm-demo
 networkMode: PUBLIC
 
 # Capability Toggles
@@ -20,6 +20,6 @@ namespace: agent-core-infra
 
 # Agent Image Configuration
 image:
-  repository: 940019131157.dkr.ecr.us-east-1.amazonaws.com/strands-agent
+  repository: 257960400895.dkr.ecr.us-west-2.amazonaws.com/strands-agent
   tag: latest
   pullPolicy: Always
