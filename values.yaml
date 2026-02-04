@@ -2,11 +2,11 @@
 # Change these values to deploy different versions (v4, v5, v6, etc.)
 
 version: v6-kagent
-projectName: ekspoc-v6-kagent
+projectName: eks-agent-poc-v6
 
 # AWS Configuration
 awsRegion: us-west-2
-eksClusterName: machine-learning
+eksClusterName: eks-nfm-demo
 networkMode: PUBLIC
 
 # Capability Toggles
@@ -20,15 +20,15 @@ namespace: agent-core-infra
 
 # Agent Image Configuration (for Strands BYO)
 image:
-  repository: 940019131157.dkr.ecr.us-east-1.amazonaws.com/strands-agent
+  repository: 257960400895.dkr.ecr.us-west-2.amazonaws.com/strands-agent
   tag: latest
   pullPolicy: Always
 
 # MCP Server Configuration
 mcpServer:
   image:
-    repository: 940019131157.dkr.ecr.us-west-2.amazonaws.com/agent-core-mcp
-    tag: v1.0.2
+    repository: 257960400895.dkr.ecr.us-west-2.amazonaws.com/agent-core-mcp
+    tag: latest
     pullPolicy: Always
 
 # KAgent Configuration
