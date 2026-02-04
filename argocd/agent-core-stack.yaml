@@ -7,7 +7,7 @@ spec:
   project: default
   
   source:
-    repoURL: https://github.com/elamaran11/eks-agent-core-pocs
+    repoURL: https://github.com/ashoksrirama/eks-agent-core-pocs
     targetRevision: feature/kagent-mcp-integration
     path: gitops/agent-core-stack
     helm:
