@@ -2,7 +2,7 @@
 # Change these values to deploy different versions (v4, v5, v6, etc.)
 
 version: v5
-projectName: ekspoc-v5
+projectName: eks-agent-poc-v5
 
 # AWS Configuration
 awsRegion: us-west-2
